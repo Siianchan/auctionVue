@@ -2,15 +2,43 @@
   <div class="topmenu">
     <div id="head">
       <div>江西高校物品拍卖网</div>
-
       <div>
-        发布商品
+        <el-link> 发布商品</el-link>
         <el-divider direction="vertical"></el-divider>
-        登录/注册
+        <el-link> 登录/注册</el-link>
       </div>
     </div>
     <el-divider style="margin: 0"></el-divider>
-    <div id="search"></div>
+    <div id="header">
+      <div id="header_in">
+        <div style="width: 15%">
+          <el-select v-model="value" clearable placeholder="分类">
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div style="width: 45%; margin: ">
+          <el-input
+            placeholder="搜索商品..."
+            v-model="search"
+            class="input-with-select"
+            style="width: 100%"
+          >
+            <el-button slot="append" icon="el-icon-search"></el-button>
+          </el-input>
+        </div>
+        <div style="width: 14%">
+          <div>
+            <i class="el-icon-star-off" style="font-size: 1.5em"></i>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -18,7 +46,26 @@ export default {
   props: [],
   data() {
     return {
-      t: false,
+      options: [
+        {
+          value: "选项1",
+          label: "黄金糕",
+        },
+        {
+          value: "选项2",
+          label: "双皮奶",
+        },
+        {
+          value: "选项3",
+          label: "蚵仔煎",
+        },
+        {
+          value: "选项4",
+          label: "龙须面",
+        },
+      ],
+      value: "",
+      search: "",
     };
   },
   created() {},
@@ -34,17 +81,24 @@ export default {
   width: 100%;
 }
 
-#search {
+#header {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   width: 100%;
-  height: 50px;
-  background-color: orange;
+  height: 60px;
+  background-color: #409eff;
+}
+#header_in {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
 }
 #head {
-  color: #333;
+  color: #606266;
   text-transform: capitalize;
   line-height: 50px;
   font-size: 16px;
@@ -54,33 +108,11 @@ export default {
   letter-spacing: 0.3px;
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  width: 100%;
+  width: 60%;
   height: 50px;
   background-color: white;
   /* box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); */
-}
-
-.loginPage {
-  position: fixed;
-  width: 300px;
-  margin: auto;
-  margin-top: 300px;
-  background-color: white;
-  border: 1px rgba(0, 0, 0, 0.075) solid;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-  z-index: 10;
-}
-.user_operate {
-  width: 100%;
-  height: 30px;
-  line-height: 30px;
-  text-align: center;
-}
-.user_operate :hover {
-}
-a {
-  color: #212121;
 }
 </style>

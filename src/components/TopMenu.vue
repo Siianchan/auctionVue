@@ -8,7 +8,6 @@
         <el-link> 登录/注册</el-link>
       </div>
     </div>
-    <el-divider style="margin: 0"></el-divider>
     <div id="header">
       <div id="header_in">
         <div style="width: 15%">

@@ -87,7 +87,7 @@ export default {
   align-items: center;
   width: 100%;
   height: 60px;
-  background-color: #409eff;
+  background-color: #fdb813;
 }
 #header_in {
   display: flex;

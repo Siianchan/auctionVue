@@ -31,7 +31,7 @@
             <el-button slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </div>
-        <div style="width: 14%">
+        <div style="width: 13%">
           <div>
             <i class="el-icon-star-off" style="font-size: 1.5em"></i>
           </div>

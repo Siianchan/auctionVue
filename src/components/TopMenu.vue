@@ -3,15 +3,27 @@
     <div id="head">
       <div>江西高校物品拍卖网</div>
       <div>
-        <el-link> 发布商品</el-link>
+        <el-link :underline="false"> 发布商品</el-link>
         <el-divider direction="vertical"></el-divider>
-        <el-link> 登录/注册</el-link>
+        <el-link :underline="false" href="#/login"> 登录/注册</el-link>
       </div>
     </div>
     <div id="header">
       <div id="header_in">
         <div style="width: 15%">
-          <el-select v-model="value" clearable placeholder="分类">
+          <el-dropdown @command="handleCommand">
+            <span class="el-dropdown-link">
+              <i class="el-icon-s-unfold" style="font-size: 1.1em"></i>
+              {{ sele }}<i class="el-icon-arrow-down el-icon--right"></i>
+            </span>
+            <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item command="所有分类">所有分类</el-dropdown-item>
+              <el-dropdown-item command="黄金糕">黄金糕</el-dropdown-item>
+              <el-dropdown-item command="狮子头">狮子头</el-dropdown-item>
+              <el-dropdown-item command="螺蛳粉">螺蛳粉</el-dropdown-item>
+            </el-dropdown-menu>
+          </el-dropdown>
+          <!-- <el-select v-model="value" clearable placeholder="分类">
             <el-option
               v-for="item in options"
               :key="item.value"
@@ -19,7 +31,7 @@
               :value="item.value"
             >
             </el-option>
-          </el-select>
+          </el-select> -->
         </div>
         <div style="width: 45%; margin: ">
           <el-input
@@ -45,33 +57,30 @@ export default {
   props: [],
   data() {
     return {
-      options: [
-        {
-          value: "选项1",
-          label: "黄金糕",
-        },
-        {
-          value: "选项2",
-          label: "双皮奶",
-        },
-        {
-          value: "选项3",
-          label: "蚵仔煎",
-        },
-        {
-          value: "选项4",
-          label: "龙须面",
-        },
-      ],
+      sele: "所有分类",
       value: "",
       search: "",
     };
   },
   created() {},
-  methods: {},
+  methods: {
+    handleCommand(command) {
+      this.sele = command;
+      this.$message("click on item " + command);
+    },
+  },
 };
 </script>
 <style >
+.el-dropdown-link {
+  font-weight: bold;
+  font-size: 1.2em;
+  cursor: pointer;
+  color: black;
+}
+.el-icon-arrow-down {
+  font-size: 12px;
+}
 .topmenu {
   display: flex;
   justify-content: flex-start;

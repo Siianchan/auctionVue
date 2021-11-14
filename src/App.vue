@@ -18,6 +18,7 @@ export default {
 
 <style>
 #app {
+  font-family: Microsoft YaHei;
   margin: 0;
   padding: 0;
 }

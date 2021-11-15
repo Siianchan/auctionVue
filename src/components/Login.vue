@@ -42,9 +42,7 @@
   </div>
 </template>
 <script>
-import Index from "./Index.vue";
 export default {
-  components: { Index },
   data() {
     return {
       text: "登录",

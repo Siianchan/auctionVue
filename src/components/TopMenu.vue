@@ -3,7 +3,7 @@
     <div id="head">
       <div>江西高校物品拍卖网</div>
       <div>
-        <el-link :underline="false"> 发布商品</el-link>
+        <el-link :underline="false" href="#/publish"> 发布商品</el-link>
         <el-divider direction="vertical"></el-divider>
         <el-link :underline="false" href="#/login"> 登录/注册</el-link>
       </div>

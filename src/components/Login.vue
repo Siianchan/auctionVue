@@ -20,13 +20,24 @@
       </div>
       <div id="right">
         <div style="font-size: 1.8em; margin-top: 5%">{{ text }}</div>
-        <input class="input" placeholder="请输入邮箱" type="text" />
-        <input class="input" placeholder="请输入密码" type="password" />
+        <input
+          class="input"
+          maxlength="20"
+          placeholder="请输入邮箱"
+          type="text"
+        />
+        <input
+          class="input"
+          maxlength="20"
+          placeholder="请输入密码"
+          type="password"
+        />
         <input
           class="input"
           v-if="this.text == '注册'"
           placeholder="确认密码"
           type="password"
+          maxlength="20"
         />
         <el-button
           style="

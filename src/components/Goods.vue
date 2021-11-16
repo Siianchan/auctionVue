@@ -45,9 +45,11 @@
         </p>
         <el-divider></el-divider>
         <div id="daojishi">
-          距结束：<span>{{ day }} </span>天 <span>{{ hour }} </span>时<span>
-            {{ minute }} </span
-          >分 <span> {{ second }}</span> 秒
+          距结束：<span>{{ day }}</span
+          >天<span>{{ hour }}</span
+          >&nbsp;时<span> {{ minute }}</span
+          >&nbsp;分<span>{{ second }}</span
+          >&nbsp;秒
         </div>
         <div>
           您的竞价：<el-input
@@ -55,10 +57,7 @@
             v-model="input"
             placeholder=""
             maxlength="7"
-            min="0"
-            :step="num"
-            max="10000000"
-            type="number"
+            oninput="value=value.replace(/[^\d]/g,'')"
             :disabled="dis"
           ></el-input>
           <el-button style="width: 50%; margin-left: 5%" type="success"
@@ -119,7 +118,7 @@ export default {
   },
   created() {
     var now = new Date().getTime();
-    var end = new Date(2021, 10, 14, 19).getTime();
+    var end = new Date(2021, 10, 18, 9).getTime();
     this.time = end - now;
     this.day = parseInt(this.time / (1000 * 60 * 60 * 24));
     this.hour = parseInt(this.time / (1000 * 60 * 60)) % 24;
@@ -128,7 +127,7 @@ export default {
   methods: {
     setSeconde() {
       var now = new Date().getTime();
-      var end = new Date(2021, 10, 14, 19).getTime();
+      var end = new Date(2021, 10, 18, 9).getTime();
       this.time = end - now;
       this.minute = parseInt(this.time / (1000 * 60)) % 60;
       this.second = parseInt(this.time / 1000) % 60;

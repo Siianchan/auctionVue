@@ -16,13 +16,19 @@
         class="demo-ruleForm"
       >
         <el-form-item label="商品名称" prop="name">
-          <el-input v-model="ruleForm.name"></el-input>
+          <el-input v-model="ruleForm.name" maxlength="20"></el-input>
         </el-form-item>
         <el-form-item label="商品描述" prop="desc">
-          <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+          <el-input
+            type="textarea"
+            v-model="ruleForm.desc"
+            rows="5"
+            maxlength="200"
+            show-word-limit
+          ></el-input>
         </el-form-item>
-        <el-form-item label="起拍价" prop="price">
-          <el-input v-model="ruleForm.price"></el-input>
+        <el-form-item label="起拍价格" prop="price">
+          <el-input v-model="ruleForm.price" maxlength="10"></el-input>
         </el-form-item>
         <el-form-item label="加价幅度" prop="step">
           <el-input v-model="ruleForm.step"></el-input>
@@ -71,45 +77,27 @@ export default {
     return {
       ruleForm: {
         name: "",
+        desc: "",
+        price: "",
+        step: "",
+        type: [],
         date1: "",
         date2: "",
         delivery: false,
-        type: [],
-        desc: "",
       },
       rules: {
         name: [
           { required: true, message: "请输入商品名称", trigger: "blur" },
-          { min: 3, max: 5, message: "长度在 3 到 5 个字符", trigger: "blur" },
-        ],
-        region: [
-          { required: true, message: "请选择活动区域", trigger: "change" },
-        ],
-        date1: [
           {
-            type: "date",
-            required: true,
-            message: "请选择日期",
-            trigger: "change",
-          },
-        ],
-        date2: [
-          {
-            type: "date",
-            required: true,
-            message: "请选择时间",
-            trigger: "change",
-          },
-        ],
-        type: [
-          {
-            type: "array",
-            required: true,
-            message: "请至少选择一个活动性质",
-            trigger: "change",
+            min: 2,
+            max: 10,
+            message: "长度在 2 到 10 个字符",
+            trigger: "blur",
           },
         ],
         desc: [{ required: true, message: "请填写商品描述", trigger: "blur" }],
+        price: [{ required: true, message: "请选择起拍价格", trigger: "blur" }],
+        step: [{ required: true, message: "请选择加价幅度", trigger: "blur" }],
       },
     };
   },
@@ -133,6 +121,8 @@ export default {
 <style>
 #publis_form {
   width: 60%;
+  margin: auto;
+  margin-top: 2%;
 }
 #publish_body {
   display: flex;

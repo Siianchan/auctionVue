@@ -31,9 +31,9 @@
           <el-input v-model="ruleForm.price" maxlength="10"></el-input>
         </el-form-item>
         <el-form-item label="加价幅度" prop="step">
-          <el-input v-model="ruleForm.step"></el-input>
+          <el-input v-model="ruleForm.step" maxlength="5"></el-input>
         </el-form-item>
-        <el-form-item label="商品分类" prop="type">
+        <el-form-item label="商品分类" prop="type" required="true">
           <el-select v-model="ruleForm.type" placeholder="请选择分类">
             <el-option label="区域一" value="shanghai"></el-option>
             <el-option label="区域二" value="beijing"></el-option>
@@ -61,6 +61,42 @@
             </el-form-item>
           </el-col>
         </el-form-item>
+        <el-form-item label="上传图片">
+          <el-upload
+            action="#"
+            :limit="5"
+            list-type="picture-card"
+            :on-exceed="fileNumsLimit"
+            :auto-upload="false"
+          >
+            <i slot="default" class="el-icon-plus"></i>
+            <div slot="file" slot-scope="{ file }">
+              <img
+                class="el-upload-list__item-thumbnail"
+                :src="file.url"
+                alt=""
+              />
+              <span class="el-upload-list__item-actions">
+                <span
+                  class="el-upload-list__item-preview"
+                  @click="handlePictureCardPreview(file)"
+                >
+                  <i class="el-icon-zoom-in"></i>
+                </span>
+                <span
+                  v-if="!disabled"
+                  class="el-upload-list__item-delete"
+                  @click="handleRemove(file)"
+                >
+                  <i class="el-icon-delete"></i>
+                </span>
+              </span>
+            </div>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="" />
+          </el-dialog>
+        </el-form-item>
         <el-form-item>
           <el-button type="primary" @click="submitForm('ruleForm')"
             >立即创建</el-button
@@ -75,6 +111,9 @@
 export default {
   data() {
     return {
+      dialogImageUrl: "",
+      dialogVisible: false,
+      disabled: false,
       ruleForm: {
         name: "",
         desc: "",
@@ -102,6 +141,16 @@ export default {
     };
   },
   methods: {
+    fileNumsLimit() {
+      this.$message("图片最多上传5张");
+    },
+    handleRemove(file) {
+      console.log(file);
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {

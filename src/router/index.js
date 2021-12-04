@@ -4,6 +4,7 @@ import HelloWorld from '@/components/Index'
 import LoginPage from '@/components/Login'
 import Goods from '@/components/Goods'
 import Publish from '@/components/Publish'
+import Person from '@/components/Person'
 Vue.use(Router)
 
 export default new Router({
@@ -27,6 +28,11 @@ export default new Router({
       path: '/Publish',
       name: 'Publish',
       component: Publish
+    },
+    {
+      path: '/Person',
+      name: 'Person',
+      component: Person
     }
   ]
 })

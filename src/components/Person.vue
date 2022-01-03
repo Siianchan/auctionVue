@@ -12,9 +12,25 @@
       </div>
       <div id="person_info">
         <div style="font-size: 1.3em">账号基本信息</div>
+        <div>用户名</div>
+        <div>
+          <el-input v-model="nickName"></el-input>
+        </div>
         <div>账号</div>
         <div>
           <el-input v-model="account"></el-input>
+        </div>
+        <div>邮箱</div>
+        <div>
+          <el-input v-model="mail"></el-input>
+        </div>
+        <div>手机号</div>
+        <div>
+          <el-input v-model="phone"></el-input>
+        </div>
+         <div>地址</div>
+        <div>
+          <el-input v-model="addr"></el-input>
         </div>
       </div>
     </div>
@@ -27,6 +43,8 @@ export default {
   data() {
     return {
       account: "",
+      mail:"",
+      nickName:"",
     };
   },
   components: {
@@ -36,7 +54,7 @@ export default {
 </script>
 <style>
 #person_info div {
-  margin-bottom: 2%;
+  margin-bottom: 1%;
   font-weight: bold;
 }
 #person_info {

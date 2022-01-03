@@ -33,7 +33,7 @@
         <el-form-item label="加价幅度" prop="step">
           <el-input v-model="ruleForm.step" maxlength="5"></el-input>
         </el-form-item>
-        <el-form-item label="商品分类" prop="type" required="true">
+        <el-form-item label="商品分类" prop="type">
           <el-select v-model="ruleForm.type" placeholder="请选择分类">
             <el-option label="区域一" value="shanghai"></el-option>
             <el-option label="区域二" value="beijing"></el-option>
@@ -61,7 +61,7 @@
             </el-form-item>
           </el-col>
         </el-form-item>
-        <el-form-item label="上传图片">
+        <el-form-item label="商品图片">
           <el-upload
             action="#"
             :limit="5"
@@ -137,6 +137,7 @@ export default {
         desc: [{ required: true, message: "请填写商品描述", trigger: "blur" }],
         price: [{ required: true, message: "请选择起拍价格", trigger: "blur" }],
         step: [{ required: true, message: "请选择加价幅度", trigger: "blur" }],
+        type:[{required:true,message:"请选择分类",trigger:"blur"}]
       },
     };
   },

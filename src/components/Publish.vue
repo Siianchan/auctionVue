@@ -3,7 +3,7 @@
     <div style="width: 100%; height: 50px; margin-top: 20px">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>发布商品</el-breadcrumb-item>
+        <el-breadcrumb-item>发布物品</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
 
@@ -15,10 +15,10 @@
         label-width="100px"
         class="demo-ruleForm"
       >
-        <el-form-item label="商品名称" prop="name">
+        <el-form-item label="物品名称" prop="name">
           <el-input v-model="ruleForm.name" maxlength="20"></el-input>
         </el-form-item>
-        <el-form-item label="商品描述" prop="desc">
+        <el-form-item label="物品描述" prop="desc">
           <el-input
             type="textarea"
             v-model="ruleForm.desc"

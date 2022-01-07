@@ -3,7 +3,7 @@
     <div style="width: 100%; height: 50px; margin-top: 20px">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>商品</el-breadcrumb-item>
+        <el-breadcrumb-item>物品</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div id="goods_details">

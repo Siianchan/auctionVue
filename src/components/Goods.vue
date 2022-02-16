@@ -22,7 +22,7 @@
         <h4>标题</h4>
         <span> 起拍时间：2021-11-11 结束时间：2021-11-11 </span>
         <span> 起拍价：￥1000 加价幅度：￥10</span>
-        <span> 所属分类：其他 </span>
+        <span> 所属分类：其他 </span>\
         <div style="display: flex; font-size: 2em">
           <span> 当前价：</span> <span style="color: red">￥10000</span>
           <!-- <div style="margin:auto;font-size: 0.4em;border: 1px solid #d7dae2;height:20px">出价人：张三</div> -->
@@ -60,6 +60,7 @@
             oninput="value=value.replace(/[^\d]/g,'')"
             :disabled="dis"
           ></el-input>
+          <span> 元 </span>
           <el-button style="width: 50%; margin-left: 5%" type="success"
             >竞拍</el-button
           >

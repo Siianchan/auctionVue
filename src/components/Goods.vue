@@ -27,6 +27,7 @@
           <span> 当前价：</span> <span style="color: red">￥10000</span>
           <!-- <div style="margin:auto;font-size: 0.4em;border: 1px solid #d7dae2;height:20px">出价人：张三</div> -->
         </div>
+        
         <p>
           商品描述： 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
           商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述

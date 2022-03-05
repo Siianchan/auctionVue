@@ -15,24 +15,28 @@
           id="zc_button"
           style="font-size: 1em; margin-top: 10%"
         >
-          {{ text }}
+          <span v-if="this.text == '登录'">注册</span>
+          <span v-if="this.text == '注册'">登录</span>
         </div>
       </div>
       <div id="right">
         <div style="font-size: 1.8em; margin-top: 5%">{{ text }}</div>
         <input
+          v-model="account"
           class="input"
           maxlength="20"
-          placeholder="请输入邮箱"
+          placeholder="请输入账号"
           type="text"
         />
         <input
+          v-model="password"
           class="input"
           maxlength="20"
           placeholder="请输入密码"
           type="password"
         />
         <input
+          v-model="confirm_pwd"
           class="input"
           v-if="this.text == '注册'"
           placeholder="确认密码"
@@ -46,6 +50,7 @@
             width: 80%;
             margin-top: 10%;
           "
+          @click="button_click"
           >{{ text }}</el-button
         >
       </div>
@@ -57,11 +62,43 @@ export default {
   data() {
     return {
       text: "登录",
-      mail: "",
+      account: "",
       password: "",
+      confirm_pwd: "",
     };
   },
   methods: {
+    button_click() {
+      if (this.text == "注册") {
+        if (this.confirm_pwd != this.password) {
+          alert("两次输入密码不一致！");
+        }
+        this.$axios({
+          method: "post",
+          url: "http://localhost:8000/addUser",
+          data: {
+            userAccount: this.account,
+            userPassword: this.password,
+          },
+        }).then(function (response) {
+          alert(response.data.resultMsg);
+        });
+      } else {
+        this.$axios({
+          method: "post",
+          url: "http://localhost:8000/login",
+          data: {
+            userAccount: this.account,
+            userPassword: this.password,
+          },
+        }).then(function (response) {
+          if(response.data.resultCode==1){
+            localStorage.setItem("token",response.data.resultData.spare1)
+          }
+          alert(response.data.resultMsg);
+        });
+      }
+    },
     qiehuan() {
       if (this.text == "登录") {
         this.text = "注册";

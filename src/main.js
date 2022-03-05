@@ -11,6 +11,25 @@ Vue.use(ElementUI)
 Vue.config.productionTip = false
 Vue.prototype.$axios = axios
 
+axios.interceptors.request.use(
+  config => {
+    if (localStorage.getItem('token')) {
+      //在请求头加入token
+      config.headers.token = localStorage.getItem('token');
+    }
+    return config;
+  });
+axios.interceptors.response.use(
+  response => {
+    // 定时刷新access-token
+    if (response.data.resultCode == '-2') {
+      localStorage.removeItem("token");
+      alert("账号验证已过期，请退出后重新登陆");
+      //token过期
+    }
+    return response
+  });
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

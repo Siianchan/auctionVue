@@ -91,11 +91,16 @@ export default {
             userAccount: this.account,
             userPassword: this.password,
           },
-        }).then(function (response) {
-          if(response.data.resultCode==1){
-            localStorage.setItem("token",response.data.resultData.spare1)
+        }).then((response) => {
+          if (response.data.resultCode == 1) {
+            localStorage.setItem("token", response.data.resultData.spare1);
+            alert(response.data.resultMsg);
+            this.$root.islogin = true;
+            this.$router.push({ path: "/" });
+          } else {
+            alert("账号或密码错误");
+            this.password = "";
           }
-          alert(response.data.resultMsg);
         });
       }
     },

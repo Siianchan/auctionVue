@@ -2,10 +2,20 @@
   <div class="topmenu">
     <div id="head">
       <div>江西高校物品拍卖网</div>
-      <div>
+      <div class="headLogin">
         <el-link :underline="false" href="#/publish"> 发布商品</el-link>
         <el-divider direction="vertical"></el-divider>
-        <el-link :underline="false" href="#/login"> 登录/注册</el-link>
+        <!-- <a v-if="this.$root.islogin" @click="headClick">
+          Siianchan
+        </a> -->
+        <!-- <el-avatar icon="el-icon-user-solid"></el-avatar> -->
+        <!-- <el-avatar  shape="square" size="small" icon="el-icon-user-solid"></el-avatar> -->
+        <el-link v-if="this.$root.islogin" :underline="false" href="#/Person">
+          <span style="font-weight:bold">Siianchan</span></el-link
+        >
+        <el-link v-if="!this.$root.islogin" :underline="false" href="#/login">
+          登录/注册</el-link
+        >
       </div>
     </div>
     <div id="header">
@@ -65,6 +75,7 @@ export default {
   },
   created() {},
   methods: {
+    headClick() {},
     handleCommand(command) {
       this.sele = command;
       this.$message("click on item " + command);
@@ -89,7 +100,11 @@ export default {
   flex-direction: column;
   width: 100%;
 }
-
+.headLogin {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
 #header {
   display: flex;
   flex-direction: row;

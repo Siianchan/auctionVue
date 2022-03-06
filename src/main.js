@@ -32,6 +32,14 @@ axios.interceptors.response.use(
 
 /* eslint-disable no-new */
 new Vue({
+  created() {
+  },
+  data() {
+    return {
+      islogin: false,
+      userInfo: {},
+    };
+  },
   el: '#app',
   router,
   components: { App },

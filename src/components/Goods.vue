@@ -19,17 +19,13 @@
         </el-carousel>
       </div>
       <div id="goods_text">
-        <h4>标题</h4>
-        <span> 起拍时间：2021-11-11 结束时间：2021-11-11 </span>
-        <span> 起拍价：￥1000 加价幅度：￥10</span>
-        <span> 所属分类：其他 </span>\
-        <div style="display: flex; font-size: 2em">
-          <span> 当前价：</span> <span style="color: red">￥10000</span>
-          <!-- <div style="margin:auto;font-size: 0.4em;border: 1px solid #d7dae2;height:20px">出价人：张三</div> -->
-        </div>
-        
+        <h4>{{ goods.goodsName }}</h4>
+        <span> 所属分类：{{ goods.goodsClassify }} </span>
+        <span> 结束时间：{{ goods.goodsEndTime }}</span>
+        <span> 起拍价：￥{{ goods.startPrice }}</span>
+        <span> 加价幅度：￥{{ goods.priceStep }}</span>
         <p>
-          商品描述： 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
+          <!-- 商品描述： 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
           商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
           商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
           商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
@@ -42,8 +38,15 @@
           商品描述 商品描述 商品描述商品描述 商品描述 商品描述 商品描述 商品描述
           商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
           商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述
+          商品描述 商品描述 商品描述 商品描述 商品描述 -->
+          物品描述：{{ goods.goodsDescribe }}
         </p>
+        <div style="display: flex; font-size: 2em">
+          <span> 当前价：</span>
+          <span style="color: red">￥{{ goods.goodsPrice }}</span>
+          <!-- <div style="margin:auto;font-size: 0.4em;border: 1px solid #d7dae2;height:20px">出价人：张三</div> -->
+        </div>
+
         <el-divider></el-divider>
         <div id="daojishi">
           距结束：<span>{{ day }}</span
@@ -55,7 +58,7 @@
         <div>
           您的竞价：<el-input
             style="width: 20%"
-            v-model="input"
+            v-model="pull_price"
             placeholder=""
             maxlength="7"
             oninput="value=value.replace(/[^\d]/g,'')"
@@ -87,6 +90,8 @@
 export default {
   data() {
     return {
+      goodsId: 1,
+      goods: {},
       tableData: [
         {
           status: "12987122",
@@ -108,7 +113,7 @@ export default {
         },
       ],
       src_arr: ["/static/img/1.jpg", "/static/img/2.jpg", "/static/img/3.jpg"],
-      input: "",
+      pull_price: 1,
       num: 10,
       dis: false,
       time: 0,
@@ -119,20 +124,37 @@ export default {
     };
   },
   created() {
-    var now = new Date().getTime();
-    var end = new Date(2021, 10, 18, 9).getTime();
-    this.time = end - now;
-    this.day = parseInt(this.time / (1000 * 60 * 60 * 24));
-    this.hour = parseInt(this.time / (1000 * 60 * 60)) % 24;
-    setInterval(this.setSeconde, 1000);
+    this.$axios
+      .get("http://localhost:8000/getGoodsDetails", {
+        params: {
+          goodsId: this.goodsId,
+        },
+      })
+      .then((res) => {
+        if (res.data.resultCode != 1) {
+          alert("加载出错");
+        }
+        this.goods = res.data.resultData;
+         this.src_arr = JSON.parse(this.goods.goodsPic);
+        var now = new Date().getTime();
+        var end = new Date(this.goods.goodsEndTime).getTime();
+        this.time = end - now;
+        if (this.time > 0) {
+          this.day = parseInt(this.time / (1000 * 60 * 60 * 24));
+          setInterval(this.setSeconde, 1000);
+        }
+      });
   },
   methods: {
     setSeconde() {
       var now = new Date().getTime();
-      var end = new Date(2021, 10, 18, 9).getTime();
+      var end = new Date(this.goods.goodsEndTime).getTime();
       this.time = end - now;
-      this.minute = parseInt(this.time / (1000 * 60)) % 60;
-      this.second = parseInt(this.time / 1000) % 60;
+      if (this.time > 0) {
+        this.hour = parseInt(this.time / (1000 * 60 * 60)) % 24;
+        this.minute = parseInt(this.time / (1000 * 60)) % 60;
+        this.second = parseInt(this.time / 1000) % 60;
+      }
     },
   },
 };
@@ -157,8 +179,9 @@ export default {
   /* border: 1px solid #d7dae2; */
 }
 #daojishi span {
-  width: 20px;
-  margin: 0px 10px;
+  width: 28px;
+  height: 25px;
+  margin: 0px 3px;
   font-size: 1.5em;
   color: red;
 }
@@ -179,7 +202,7 @@ export default {
   border-radius: 4px;
 }
 #goods_text span {
-  margin-top: 3%;
+  margin-top: 2%;
 }
 #goods_body {
   margin: auto;

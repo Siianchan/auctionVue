@@ -1,5 +1,5 @@
-<template>
-  <div id="publish_body">
+<template  v-loading.fullscreen.lock="fullscreenLoading">
+  <div id="publish_body" v-loading.fullscreen.lock="fullscreenLoading">
     <div style="width: 100%; height: 50px; margin-top: 20px">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
@@ -28,15 +28,25 @@
           ></el-input>
         </el-form-item>
         <el-form-item label="起拍价格" prop="price">
-          <el-input v-model="ruleForm.price" maxlength="10"></el-input>
+          <el-input
+            v-model="ruleForm.price"
+            maxlength="10"
+            type="number"
+          ></el-input>
         </el-form-item>
         <el-form-item label="加价幅度" prop="step">
-          <el-input v-model="ruleForm.step" maxlength="5"></el-input>
+          <el-input
+            v-model="ruleForm.step"
+            maxlength="5"
+            type="number"
+          ></el-input>
         </el-form-item>
         <el-form-item label="商品分类" prop="type">
           <el-select v-model="ruleForm.type" placeholder="请选择分类">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+            <el-option label="日常百货" value="baihuo"></el-option>
+            <el-option label="学习资料" value="ziliao"></el-option>
+            <el-option label="衣物服饰" value="fushi"></el-option>
+            <el-option label="数码电子" value="shuma"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item label="截止时间" required>
@@ -68,6 +78,7 @@
             list-type="picture-card"
             :on-exceed="fileNumsLimit"
             :auto-upload="false"
+            :on-change="fileChange"
           >
             <i slot="default" class="el-icon-plus"></i>
             <div slot="file" slot-scope="{ file }">
@@ -111,18 +122,19 @@
 export default {
   data() {
     return {
+      fullscreenLoading: false,
+      files: [],
       dialogImageUrl: "",
       dialogVisible: false,
       disabled: false,
       ruleForm: {
         name: "",
         desc: "",
-        price: "",
-        step: "",
-        type: [],
+        price: 1,
+        step: 1,
+        type: "",
         date1: "",
         date2: "",
-        delivery: false,
       },
       rules: {
         name: [
@@ -135,13 +147,22 @@ export default {
           },
         ],
         desc: [{ required: true, message: "请填写商品描述", trigger: "blur" }],
-        price: [{ required: true, message: "请选择起拍价格", trigger: "blur" }],
-        step: [{ required: true, message: "请选择加价幅度", trigger: "blur" }],
-        type:[{required:true,message:"请选择分类",trigger:"blur"}]
+        price: [
+          { required: true, message: "请选择起拍价格", trigger: "blur" },
+          // { type: "number", message: "价格必须为数字值" },
+        ],
+        step: [
+          { required: true, message: "请选择加价幅度", trigger: "blur" },
+          // { type: "number", message: "价格必须为数字值" },
+        ],
+        type: [{ required: true, message: "请选择分类", trigger: "blur" }],
       },
     };
   },
   methods: {
+    fileChange(file) {
+      this.files.push(file.raw);
+    },
     fileNumsLimit() {
       this.$message("图片最多上传5张");
     },
@@ -155,9 +176,34 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          var data = new FormData();
+          var date = new Date(this.ruleForm.date1);
+          var time = new Date(this.ruleForm.date2);
+          date.setHours(time.getHours());
+          date.setMinutes(time.getMinutes());
+          data.append("goodsName", this.ruleForm.name);
+          data.append("goodsDescribe", this.ruleForm.desc);
+          data.append("startPrice", this.ruleForm.price);
+          data.append("priceStep", this.ruleForm.step);
+          data.append("goodsEndTime", date);
+          data.append("goodsClassify", this.ruleForm.type);
+          this.files.forEach((f) => {
+            data.append("files", f);
+          });
+          console.log(data);
+          var config = {
+            headers: { "Content-Type": "multipart/form-data;boundary=----" },
+          };
+          this.fullscreenLoading = true;
+          this.$axios
+            .post("http://localhost:8000/addGoods", data, config)
+            .then((response) => {
+              this.fullscreenLoading = false;
+              alert("添加成功");
+            });
           alert("submit!");
         } else {
-          console.log("error submit!!");
+          alert("请正确填写！");
           return false;
         }
       });

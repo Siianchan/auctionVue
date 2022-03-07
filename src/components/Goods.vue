@@ -65,7 +65,10 @@
             :disabled="dis"
           ></el-input>
           <span> 元 </span>
-          <el-button style="width: 50%; margin-left: 5%" type="success"
+          <el-button
+            style="width: 50%; margin-left: 5%"
+            type="success"
+            @click="jinpai"
             >竞拍</el-button
           >
         </div>
@@ -135,7 +138,7 @@ export default {
           alert("加载出错");
         }
         this.goods = res.data.resultData;
-         this.src_arr = JSON.parse(this.goods.goodsPic);
+        this.src_arr = JSON.parse(this.goods.goodsPic);
         var now = new Date().getTime();
         var end = new Date(this.goods.goodsEndTime).getTime();
         this.time = end - now;
@@ -146,6 +149,17 @@ export default {
       });
   },
   methods: {
+    jinpai() {
+      var ret = confirm("确认出价");
+      if (ret) {
+        this.$axios.post("http://localhost:8000/auctionRecord/add",{
+            auctionId:this.goodsId,
+            recordPrice:this.pull_price
+        }).then((res) => {
+          console.log(res);
+        });
+      }
+    },
     setSeconde() {
       var now = new Date().getTime();
       var end = new Date(this.goods.goodsEndTime).getTime();

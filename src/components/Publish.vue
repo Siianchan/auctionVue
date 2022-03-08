@@ -76,9 +76,10 @@
             action="#"
             :limit="5"
             list-type="picture-card"
+            ref="upload"
             :on-exceed="fileNumsLimit"
-            :auto-upload="false"
             :on-change="fileChange"
+            :auto-upload="false"
           >
             <i slot="default" class="el-icon-plus"></i>
             <div slot="file" slot-scope="{ file }">
@@ -160,14 +161,16 @@ export default {
     };
   },
   methods: {
-    fileChange(file) {
+    fileChange(file, fileList) {
       this.files.push(file.raw);
     },
     fileNumsLimit() {
       this.$message("图片最多上传5张");
     },
     handleRemove(file) {
-      console.log(file);
+      this.$refs.upload.handleRemove(file);
+      this.files.pop;
+      console.log(this.files);
     },
     handlePictureCardPreview(file) {
       this.dialogImageUrl = file.url;
@@ -199,9 +202,9 @@ export default {
             .post("http://localhost:8000/addGoods", data, config)
             .then((response) => {
               this.fullscreenLoading = false;
+              this.$refs[formName].resetFields();
               alert("添加成功");
             });
-          alert("submit!");
         } else {
           alert("请正确填写！");
           return false;
@@ -210,6 +213,7 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+      this.$refs.upload.clearFiles();
     },
   },
 };

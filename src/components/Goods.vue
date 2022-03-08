@@ -76,7 +76,11 @@
     </div>
     <div id="goods_jilu">
       <h2>竞拍记录</h2>
-      <el-table :data="tableData" style="width: 100%">
+      <el-table
+        :data="tableData"
+        style="width: 100%"
+        :row-class-name="tableRowClassName"
+        >>
         <el-table-column prop="status" label="状态" width="250">
         </el-table-column>
         <el-table-column prop="userName" label="用户" width="250">
@@ -96,24 +100,6 @@ export default {
       goodsId: 1,
       goods: {},
       tableData: [
-        {
-          status: "12987122",
-          userName: "王小虎",
-          price: "234",
-          date: "2021-11-11",
-        },
-        {
-          status: "12987122",
-          userName: "王小虎",
-          price: "234",
-          date: "2021-11-11",
-        },
-        {
-          status: "12987122",
-          userName: "王小虎",
-          price: "234",
-          date: "2021-11-11",
-        },
       ],
       src_arr: ["/static/img/1.jpg", "/static/img/2.jpg", "/static/img/3.jpg"],
       pull_price: 1,
@@ -127,37 +113,89 @@ export default {
     };
   },
   created() {
-    this.$axios
-      .get("http://localhost:8000/getGoodsDetails", {
-        params: {
-          goodsId: this.goodsId,
-        },
-      })
-      .then((res) => {
-        if (res.data.resultCode != 1) {
-          alert("加载出错");
-        }
-        this.goods = res.data.resultData;
-        this.src_arr = JSON.parse(this.goods.goodsPic);
-        var now = new Date().getTime();
-        var end = new Date(this.goods.goodsEndTime).getTime();
-        this.time = end - now;
-        if (this.time > 0) {
-          this.day = parseInt(this.time / (1000 * 60 * 60 * 24));
-          setInterval(this.setSeconde, 1000);
-        }
-      });
+    this.loadGoods();
+    this.loadRecord();
   },
+
   methods: {
+    tableRowClassName({ row, rowIndex }) {
+      if (rowIndex === 0) {
+        return "success-row";
+      }
+    },
+    loadRecord() {
+      this.$axios
+        .get("http://localhost:8000/auctionRecord/queryPriceList", {
+          params: {
+            auctionId: this.goodsId,
+          },
+        })
+        .then((res) => {
+          var datas = res.data.resultData;
+          for (let i in datas) {
+            var element = datas[i];
+            let t = {
+              status: "失败",
+              userName: element.buyerAccount,
+              price: element.recordPrice + " 元",
+              date: element.gmtCreate,
+            };
+            this.tableData.push(t);
+          }
+          if (this.tableData.length > 0) {
+            this.tableData[0].status = "成功";
+          } else {
+            let t = {
+              status: "无",
+              userName: "无",
+              price: "无",
+              date: "无",
+            };
+            this.tableData.push(t);
+          }
+        });
+    },
+    loadGoods() {
+      this.$axios
+        .get("http://localhost:8000/getGoodsDetails", {
+          params: {
+            goodsId: this.goodsId,
+          },
+        })
+        .then((res) => {
+          if (res.data.resultCode != 1) {
+            alert("加载出错");
+          }
+          this.goods = res.data.resultData;
+          this.src_arr = JSON.parse(this.goods.goodsPic);
+          var now = new Date().getTime();
+          var end = new Date(this.goods.goodsEndTime).getTime();
+          this.time = end - now;
+          if (this.time > 0) {
+            this.day = parseInt(this.time / (1000 * 60 * 60 * 24));
+            setInterval(this.setSeconde, 1000);
+          }
+        });
+    },
     jinpai() {
+      if (this.pull_price < this.goods.goodsPrice + this.goods.priceStep) {
+        alert("出价金额必须高于当前金额");
+        return;
+      }
+
       var ret = confirm("确认出价");
       if (ret) {
-        this.$axios.post("http://localhost:8000/auctionRecord/add",{
-            auctionId:this.goodsId,
-            recordPrice:this.pull_price
-        }).then((res) => {
-          console.log(res);
-        });
+        this.$axios
+          .post("http://localhost:8000/auctionRecord/add", {
+            auctionId: this.goodsId,
+            recordPrice: this.pull_price,
+          })
+          .then((res) => {
+            if (res.data.resultCode != 1) {
+              alert("出价金额必须高于当前金额");
+            }
+            console.log(res);
+          });
       }
     },
     setSeconde() {
@@ -174,6 +212,9 @@ export default {
 };
 </script>
 <style>
+.el-table .success-row {
+  background: #f0f9eb;
+}
 #goods_jilu {
   margin: auto;
   margin-top: 5%;

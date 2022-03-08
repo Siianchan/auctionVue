@@ -14,29 +14,32 @@
       </div>
 
       <div id="sp_list">
-        <div class="box-card" v-for="i in 12">
+        <div class="box-card" v-for="g in goods" @click="clickGoods(g.goodsId)">
           <div style="width: 100%; height: 65%; overflow: hidden">
-            <img
-              src="https://shadow.elemecdn.com/app/element/hamburger.9cf7b091-55e9-11e9-a976-7f4d0b07eef6.png"
-              style="width: 100%"
-            />
+            <img :src="g.goodsPic" style="height: 100%" />
           </div>
           <div id="box_text">
-            <div style="width: 100%;color:#303133;margin-top:2%">
-              <b> {{ "列表内容 " + i }}</b>
+            <div style="width: 100%; color: #303133; margin-top: 2%">
+              <b> {{ g.goodsName }}</b>
             </div>
-            <div style="width: 100%;color:#606266">起拍时间：2021-11-11</div>
-            <div style="color: red;margin-bottom:2%">￥1000</div>
+            <div style="width: 100%; color: #606266">
+              结束时间：{{ g.goodsEndTime }}
+            </div>
+            <div style="color: red; margin-bottom: 2%">
+              ￥{{ g.goodsPrice }}
+            </div>
           </div>
         </div>
       </div>
       <div id="fenye">
         <div>
           <el-pagination
-            :page-size="20"
+            :page-size="pageSize"
             :pager-count="11"
             layout="prev, pager, next"
-            :total="1000"
+            :total="total"
+            :current-page="pageNum"
+            @current-change="pageChange"
           >
           </el-pagination>
         </div>
@@ -47,9 +50,41 @@
 
 <script>
 export default {
+  created() {
+    this.loadAuction();
+  },
+  methods: {
+    clickGoods(id){
+         this.$router.push({path: '/Goods',query:{ goodsId:id}});
+    },
+    pageChange(page) {
+      this.pageNum = page;
+      this.loadAuction();
+    },
+    loadAuction() {
+      this.$axios
+        .get("http://localhost:8000/getGoodsList", {
+          params: {
+            pageSize: this.pageSize,
+            pageNum: this.pageNum,
+          },
+        })
+        .then((res) => {
+          console.log(res);
+          if (res.data.resultCode == 1) {
+            this.goods = res.data.resultData;
+            this.total = parseInt(res.data.resultMsg);
+          }
+        });
+    },
+  },
   name: "Index",
   data() {
     return {
+      goods: [],
+      pageSize: 12,
+      pageNum: 1,
+      total: 1,
       src_arr: ["/static/img/1.jpg", "/static/img/2.jpg", "/static/img/3.jpg"],
       msg: "Welcome to Your Vue.js App",
     };

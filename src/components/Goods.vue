@@ -19,41 +19,27 @@
         </el-carousel>
       </div>
       <div id="goods_text">
-        <h4>{{ goods.goodsName }}</h4>
+        <h3>{{ goods.goodsName }}</h3>
         <span> 所属分类：{{ goods.goodsClassify }} </span>
         <span> 结束时间：{{ goods.goodsEndTime }}</span>
         <span> 起拍价：￥{{ goods.startPrice }}</span>
         <span> 加价幅度：￥{{ goods.priceStep }}</span>
-        <p>
-          <!-- 商品描述： 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述 商品描述 商品描述
-          商品描述 商品描述 商品描述 商品描述 商品描述 -->
-          物品描述：{{ goods.goodsDescribe }}
-        </p>
+        <p>物品描述：{{ goods.goodsDescribe }}</p>
         <div style="display: flex; font-size: 2em">
           <span> 当前价：</span>
           <span style="color: red">￥{{ goods.goodsPrice }}</span>
-          <!-- <div style="margin:auto;font-size: 0.4em;border: 1px solid #d7dae2;height:20px">出价人：张三</div> -->
         </div>
 
         <el-divider></el-divider>
-        <div id="daojishi">
+        <div id="daojishi" v-if="!isEnd">
           距结束：<span>{{ day }}</span
           >天<span>{{ hour }}</span
           >&nbsp;时<span> {{ minute }}</span
           >&nbsp;分<span>{{ second }}</span
           >&nbsp;秒
+        </div>
+        <div id="daojishi" v-if="isEnd">
+          <b><span style="color: red"> 已结束</span></b>
         </div>
         <div>
           您的竞价：<el-input
@@ -62,7 +48,7 @@
             placeholder=""
             maxlength="7"
             oninput="value=value.replace(/[^\d]/g,'')"
-            :disabled="dis"
+            :disabled="isEnd"
           ></el-input>
           <span> 元 </span>
           <el-button
@@ -97,11 +83,11 @@
 export default {
   data() {
     return {
-      goodsId: 1,
+      isEnd: false,
+      goodsId: this.$route.query.goodsId,
       goods: {},
-      tableData: [
-      ],
-      src_arr: ["/static/img/1.jpg", "/static/img/2.jpg", "/static/img/3.jpg"],
+      tableData: [],
+      src_arr: [],
       pull_price: 1,
       num: 10,
       dis: false,
@@ -132,6 +118,7 @@ export default {
         })
         .then((res) => {
           var datas = res.data.resultData;
+          this.src_arr = res.data.resultData.goodsPic;
           for (let i in datas) {
             var element = datas[i];
             let t = {
@@ -174,6 +161,8 @@ export default {
           if (this.time > 0) {
             this.day = parseInt(this.time / (1000 * 60 * 60 * 24));
             setInterval(this.setSeconde, 1000);
+          } else {
+            this.isEnd = true;
           }
         });
     },
@@ -206,6 +195,8 @@ export default {
         this.hour = parseInt(this.time / (1000 * 60 * 60)) % 24;
         this.minute = parseInt(this.time / (1000 * 60)) % 60;
         this.second = parseInt(this.time / 1000) % 60;
+      } else {
+        this.isEnd = true;
       }
     },
   },
@@ -248,9 +239,10 @@ export default {
   background-color: #d3dce6;
 }
 #goods_text {
+  word-wrap: break-word;
   display: flex;
   flex-direction: column;
-  font-size: 0.9em;
+  font-size: 0.95em;
   width: 50%;
   height: 650px;
   /* border: 1px solid #d7dae2; */

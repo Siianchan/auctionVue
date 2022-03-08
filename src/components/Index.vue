@@ -70,7 +70,7 @@ export default {
           },
         })
         .then((res) => {
-          console.log(res);
+          // console.log(res);
           if (res.data.resultCode == 1) {
             this.goods = res.data.resultData;
             this.total = parseInt(res.data.resultMsg);

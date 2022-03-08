@@ -11,7 +11,9 @@
         <!-- <el-avatar icon="el-icon-user-solid"></el-avatar> -->
         <!-- <el-avatar  shape="square" size="small" icon="el-icon-user-solid"></el-avatar> -->
         <el-link v-if="this.$root.islogin" :underline="false" href="#/Person">
-          <span style="font-weight:bold">Siianchan</span></el-link
+          <span style="font-weight: bold">{{
+            this.$root.userInfo.userNickname
+          }}</span></el-link
         >
         <el-link v-if="!this.$root.islogin" :underline="false" href="#/login">
           登录/注册</el-link
@@ -73,8 +75,22 @@ export default {
       search: "",
     };
   },
-  created() {},
+  created() {
+    this.loadUser();
+  },
   methods: {
+    loadUser() {
+      if (localStorage.getItem("token") != null) {
+        this.$axios
+          .get("http://localhost:8000/user/selectByUserAccount")
+          .then((res) => {
+            if (res.data.resultCode == 1) {
+              this.$root.islogin = true;
+              this.$root.userInfo = res.data.resultData;
+            }
+          });
+      }
+    },
     headClick() {},
     handleCommand(command) {
       this.sele = command;

@@ -26,7 +26,7 @@
           class="input"
           maxlength="20"
           placeholder="请输入账号"
-          type="text"
+          type="number"
         />
         <input
           v-model="password"
@@ -75,7 +75,7 @@ export default {
         }
         this.$axios({
           method: "post",
-          url: "http://localhost:8000/addUser",
+          url: "http://localhost:8000/user/addUser",
           data: {
             userAccount: this.account,
             userPassword: this.password,
@@ -86,7 +86,7 @@ export default {
       } else {
         this.$axios({
           method: "post",
-          url: "http://localhost:8000/login",
+          url: "http://localhost:8000/user/login",
           data: {
             userAccount: this.account,
             userPassword: this.password,
@@ -96,6 +96,7 @@ export default {
             localStorage.setItem("token", response.data.resultData.spare1);
             alert(response.data.resultMsg);
             this.$root.islogin = true;
+            this.$root.userInfo=response.data.resultData;
             this.$router.push({ path: "/" });
           } else {
             alert("账号或密码错误");

@@ -12,23 +12,24 @@
       </div>
       <div id="person_info">
         <div style="font-size: 1.3em">账号基本信息</div>
-        <div>用户名</div>
+        <div>账号</div>
+        <div>
+          <el-input :value="account" :disabled="true"></el-input>
+        </div>
+        <div>昵称</div>
         <div>
           <el-input v-model="nickName"></el-input>
         </div>
-        <div>账号</div>
-        <div>
-          <el-input v-model="account"></el-input>
-        </div>
-        <div>邮箱</div>
+        <!-- <div>邮箱</div>
         <div>
           <el-input v-model="mail"></el-input>
-        </div>
-        <div>手机号</div>
+        </div> -->
+       
+         <div>学校</div>
         <div>
-          <el-input v-model="phone"></el-input>
+          <el-input v-model="school"></el-input>
         </div>
-         <div>地址</div>
+        <div>地址</div>
         <div>
           <el-input v-model="addr"></el-input>
         </div>
@@ -42,10 +43,18 @@ export default {
   name: "Person",
   data() {
     return {
+      addr: "",
       account: "",
-      mail:"",
-      nickName:"",
+      school:"",
+      // mail: "",
+      nickName: "",
     };
+  },
+  mounted() {
+    this.account = this.$root.userInfo.userAccount;
+    this.nickName = this.$root.userInfo.userNickname;
+    this.addr=this.$root.userInfo.userAddr;
+    this.school=this.$root.userInfo.userSchool;
   },
   components: {
     Menu,

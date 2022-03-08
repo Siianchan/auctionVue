@@ -24,6 +24,7 @@ axios.interceptors.response.use(
     // 定时刷新access-token
     if (response.data.resultCode == '-2') {
       localStorage.removeItem("token");
+      this.$root.userInfo={};
       alert("账号验证已过期，请退出后重新登陆");
       //token过期
     }

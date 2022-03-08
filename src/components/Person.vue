@@ -24,14 +24,19 @@
         <div>
           <el-input v-model="mail"></el-input>
         </div> -->
-       
-         <div>学校</div>
+
+        <div>学校</div>
         <div>
           <el-input v-model="school"></el-input>
         </div>
         <div>地址</div>
         <div>
           <el-input v-model="addr"></el-input>
+        </div>
+        <div>
+          <el-button @click="updateButton" style="width: 100px; float: right"
+            >修改</el-button
+          >
         </div>
       </div>
     </div>
@@ -45,7 +50,7 @@ export default {
     return {
       addr: "",
       account: "",
-      school:"",
+      school: "",
       // mail: "",
       nickName: "",
     };
@@ -53,8 +58,31 @@ export default {
   mounted() {
     this.account = this.$root.userInfo.userAccount;
     this.nickName = this.$root.userInfo.userNickname;
-    this.addr=this.$root.userInfo.userAddr;
-    this.school=this.$root.userInfo.userSchool;
+    this.addr = this.$root.userInfo.userAddr;
+    this.school = this.$root.userInfo.userSchool;
+  },
+  methods: {
+    updateButton() {
+      let user = {
+        userAccount: this.account,
+        userNickname: this.nickName,
+        userSchool: this.school,
+        userAddr: this.addr,
+      };
+      this.$axios
+        .post("http://localhost:8000/user/updateByUserAccount", user)
+        .then((res) => {
+          if (res.data.resultCode == 1) {
+            this.$root.userInfo.userAccount = this.account;
+            this.$root.userInfo.userNickname = this.nickName;
+            this.$root.userInfo.userAddr = this.addr;
+            this.$root.userInfo.userSchool = this.school;
+            alert("修改成功");
+          }else{
+            alert("修改失败")
+          }
+        });
+    },
   },
   components: {
     Menu,

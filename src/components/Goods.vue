@@ -55,6 +55,7 @@
             style="width: 50%; margin-left: 5%"
             type="success"
             @click="jinpai"
+            :disabled="isEnd"
             >竞拍</el-button
           >
         </div>
@@ -99,6 +100,10 @@ export default {
     };
   },
   created() {
+    if (!this.$root.islogin) {
+      alert("请先登录");
+      this.$router.push({ path: "/" });
+    }
     this.loadGoods();
     this.loadRecord();
   },

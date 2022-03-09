@@ -3,15 +3,15 @@
     <div style="width: 100%; height: 50px; margin-top: 20px">
       <el-breadcrumb separator-class="el-icon-arrow-right">
         <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-        <el-breadcrumb-item>我的订单</el-breadcrumb-item>
+        <el-breadcrumb-item>修改密码</el-breadcrumb-item>
       </el-breadcrumb>
     </div>
     <div id="person_item">
       <div style="width: 22%">
-        <Menu title="我的订单"/>
+        <Menu title="修改密码"/>
       </div>
       <div id="person_info">
-        <div style="font-size: 1.3em">我的订单</div>
+        <div style="font-size: 1.3em">修改密码</div>
       </div>
     </div>
   </div>

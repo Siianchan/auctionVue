@@ -6,6 +6,8 @@ import Goods from '@/components/Goods'
 import Publish from '@/components/Publish'
 import Person from '@/components/Person'
 import myOrder from '@/components/myOrder'
+import updatePwd from '@/components/updatePwd'
+import myAuction from '@/components/myAuction'
 Vue.use(Router)
 
 export default new Router({
@@ -39,6 +41,16 @@ export default new Router({
       path: '/myOrder',
       name: 'myOrder',
       component: myOrder
+    },
+    {
+      path: '/updatePwd',
+      name: 'updatePwd',
+      component: updatePwd
+    },
+    {
+      path: '/myAuction',
+      name: 'myAuction',
+      component: myAuction
     }
   ]
 })

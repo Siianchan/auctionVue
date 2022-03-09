@@ -1,0 +1,56 @@
+<template>
+  <div id="person_body">
+    <div style="width: 100%; height: 50px; margin-top: 20px">
+      <el-breadcrumb separator-class="el-icon-arrow-right">
+        <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
+        <el-breadcrumb-item>我的竞拍</el-breadcrumb-item>
+      </el-breadcrumb>
+    </div>
+    <div id="person_item">
+      <div style="width: 22%">
+        <Menu title="我的竞拍"/>
+      </div>
+      <div id="person_info">
+        <div style="font-size: 1.3em">我的竞拍</div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+import Menu from "@/components/Menu";
+export default {
+  name: "Person",
+  data() {
+    return {
+  
+    };
+  },
+  mounted() {},
+  methods: {},
+  components: {
+    Menu,
+  },
+};
+</script>
+<style>
+#person_info div {
+  margin-bottom: 1%;
+  font-weight: bold;
+}
+#person_info {
+  width: 70%;
+  display: flex;
+  margin-left: 3%;
+  flex-direction: column;
+}
+#person_item {
+  width: 100%;
+  display: flex;
+}
+#person_body {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  margin: auto;
+}
+</style>

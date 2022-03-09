@@ -5,6 +5,7 @@ import LoginPage from '@/components/Login'
 import Goods from '@/components/Goods'
 import Publish from '@/components/Publish'
 import Person from '@/components/Person'
+import myOrder from '@/components/myOrder'
 Vue.use(Router)
 
 export default new Router({
@@ -33,6 +34,11 @@ export default new Router({
       path: '/Person',
       name: 'Person',
       component: Person
+    },
+    {
+      path: '/myOrder',
+      name: 'myOrder',
+      component: myOrder
     }
   ]
 })

@@ -1,12 +1,26 @@
 <template>
   <div id="menu_body">
-    <div class="menu_item" v-for="i in 5">
-      <span style="margin: 5%">基本信息</span>
+    <div class="menu_item" v-for="(i, index) in item" @click="menuClick(index)">
+      <span v-if="i != title" style="margin: 5%">{{ i }}</span>
+      <span v-if="i == title" style="margin: 5%; color: #fdb813">{{ i }}</span>
     </div>
   </div>
 </template>
 <script>
-export default {};
+export default {
+  props: ["title"],
+  data() {
+    return {
+      item: ["个人信息", "修改密码", "我的竞拍", "我的拍卖"],
+      url: ["/Person", "/Person", "/myOrder", "/Person"],
+    };
+  },
+  methods: {
+    menuClick(index) {
+      this.$router.push({ path: this.url[index] });
+    },
+  },
+};
 </script>
 <style>
 #menu_body :hover {

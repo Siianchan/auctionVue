@@ -63,6 +63,10 @@ export default {
   },
   methods: {
     updateButton() {
+      var cf = confirm("您确定要修改吗？");
+      if (!cf) {
+        return;
+      }
       let user = {
         userAccount: this.account,
         userNickname: this.nickName,
@@ -78,8 +82,8 @@ export default {
             this.$root.userInfo.userAddr = this.addr;
             this.$root.userInfo.userSchool = this.school;
             alert("修改成功");
-          }else{
-            alert("修改失败")
+          } else {
+            alert("修改失败");
           }
         });
     },

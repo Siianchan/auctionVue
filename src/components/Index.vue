@@ -54,8 +54,8 @@ export default {
     this.loadAuction();
   },
   methods: {
-    clickGoods(id){
-         this.$router.push({path: '/Goods',query:{ goodsId:id}});
+    clickGoods(id) {
+      this.$router.push({ path: "/Goods", query: { goodsId: id } });
     },
     pageChange(page) {
       this.pageNum = page;

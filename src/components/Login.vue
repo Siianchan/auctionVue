@@ -25,7 +25,7 @@
           v-model="account"
           class="input"
           maxlength="20"
-          placeholder="请输入账号"
+          placeholder="请输入手机号"
           type="number"
         />
         <input

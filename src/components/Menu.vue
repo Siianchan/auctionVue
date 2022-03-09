@@ -24,7 +24,7 @@ export default {
 </script>
 <style>
 #menu_body :hover {
-  background-color: #fdb813;
+  color: #fdb813;
 }
 
 .menu_item {

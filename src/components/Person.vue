@@ -8,7 +8,7 @@
     </div>
     <div id="person_item">
       <div style="width: 22%">
-        <Menu />
+        <Menu  title="个人信息"/>
       </div>
       <div id="person_info">
         <div style="font-size: 1.3em">账号基本信息</div>

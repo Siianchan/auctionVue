@@ -11,7 +11,7 @@ export default {
   props: ["title"],
   data() {
     return {
-      item: ["个人信息", "修改密码", "我的订单", "我的拍卖"],
+      item: ["个人信息", "修改密码", "我的竞拍", "我的拍卖"],
       url: ["/Person", "/updatePwd", "/myOrder", "/myAuction"],
     };
   },

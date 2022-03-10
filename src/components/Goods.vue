@@ -122,6 +122,7 @@ export default {
           },
         })
         .then((res) => {
+          this.tableData = [];
           var datas = res.data.resultData;
           this.src_arr = res.data.resultData.goodsPic;
           for (let i in datas) {
@@ -136,14 +137,6 @@ export default {
           }
           if (this.tableData.length > 0) {
             this.tableData[0].status = "成功";
-          } else {
-            let t = {
-              status: "无",
-              userName: "无",
-              price: "无",
-              date: "无",
-            };
-            this.tableData.push(t);
           }
         });
     },
@@ -157,8 +150,10 @@ export default {
         .then((res) => {
           if (res.data.resultCode != 1) {
             alert("加载出错");
+            return;
           }
           this.goods = res.data.resultData;
+          this.pull_price = this.goods.goodsPrice;
           this.src_arr = JSON.parse(this.goods.goodsPic);
           var now = new Date().getTime();
           var end = new Date(this.goods.goodsEndTime).getTime();
@@ -173,7 +168,7 @@ export default {
     },
     jinpai() {
       if (this.pull_price < this.goods.goodsPrice + this.goods.priceStep) {
-        alert("出价金额必须高于当前金额");
+        alert("出价金额必须高于当前金额及加价幅度");
         return;
       }
 
@@ -186,7 +181,11 @@ export default {
           })
           .then((res) => {
             if (res.data.resultCode != 1) {
-              alert("出价金额必须高于当前金额");
+              alert("竞价失败，请刷新后重试");
+            } else {
+              this.goods.goodsPrice = this.pull_price;
+              this.loadRecord();
+              alert("竞价成功");
             }
             console.log(res);
           });

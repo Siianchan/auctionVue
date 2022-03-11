@@ -99,11 +99,13 @@ export default {
       second: 0,
     };
   },
+  watch: {
+    $route(to, form) {
+      this.loadGoods();
+      this.loadRecord();
+    },
+  },
   created() {
-    if (!this.$root.islogin) {
-      alert("请先登录");
-      this.$router.push({ path: "/" });
-    }
     this.loadGoods();
     this.loadRecord();
   },
@@ -167,6 +169,10 @@ export default {
         });
     },
     jinpai() {
+      if (!this.$root.islogin) {
+        alert("请先登录");
+        this.$router.push({ path: "/" });
+      }
       if (this.pull_price < this.goods.goodsPrice + this.goods.priceStep) {
         alert("出价金额必须高于当前金额及加价幅度");
         return;

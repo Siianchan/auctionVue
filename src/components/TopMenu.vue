@@ -29,22 +29,13 @@
               {{ sele }}<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item command="所有分类">所有分类</el-dropdown-item>
-              <el-dropdown-item command="日常百货">日常百货</el-dropdown-item>
-              <el-dropdown-item command="数码电子">数码电子</el-dropdown-item>
-              <el-dropdown-item command="衣物服饰">衣物服饰</el-dropdown-item>
-              <el-dropdown-item command="学习资料">学习资料</el-dropdown-item>
+              <el-dropdown-item command="">所有分类</el-dropdown-item>
+              <el-dropdown-item command="baihuo">日常百货</el-dropdown-item>
+              <el-dropdown-item command="shuma">数码电子</el-dropdown-item>
+              <el-dropdown-item command="fushi">衣物服饰</el-dropdown-item>
+              <el-dropdown-item command="ziliao">学习资料</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
-          <!-- <el-select v-model="value" clearable placeholder="分类">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select> -->
         </div>
         <div style="width: 45%; margin: ">
           <el-input
@@ -54,7 +45,7 @@
             style="width: 100%"
             maxlength="20"
           >
-            <el-button slot="append" icon="el-icon-search"></el-button>
+            <el-button @click="searchButton" slot="append" icon="el-icon-search"></el-button>
           </el-input>
         </div>
         <div style="width: 13%">
@@ -77,9 +68,11 @@ export default {
     };
   },
   created() {
-    this.loadUser();
   },
   methods: {
+    searchButton(){
+     this.$router.push({ path: "/", query: { word: this.search } });
+    },
     loadUser() {
       if (localStorage.getItem("token") != null) {
         this.$axios
@@ -94,8 +87,14 @@ export default {
     },
     headClick() {},
     handleCommand(command) {
-      this.sele = command;
-      this.$message("click on item " + command);
+      let arr = [];
+      arr[""] = "所有分类";
+      arr["baihuo"] = "日常百货";
+      arr["fushi"] = "衣物服饰";
+      arr["shuma"] = "数码电子";
+      arr["ziliao"] = "学习资料";
+      this.sele = arr[command];
+      this.$router.push({ path: "/", query: { type: command } });
     },
   },
 };

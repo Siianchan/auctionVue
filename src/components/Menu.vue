@@ -4,6 +4,9 @@
       <span v-if="i != title" style="margin: 5%">{{ i }}</span>
       <span v-if="i == title" style="margin: 5%; color: #fdb813">{{ i }}</span>
     </div>
+    <div class="menu_item" @click="logout">
+      <span style="margin: 5%">退出登录</span>
+    </div>
   </div>
 </template>
 <script>
@@ -16,6 +19,14 @@ export default {
     };
   },
   methods: {
+    logout() {
+      if (confirm("确定要退出登录吗？")) {
+        localStorage.removeItem("token");
+        this.$root.islogin = false;
+        this.$root.userInfo = {};
+        this.$router.push({path:"/"})
+      }
+    },
     menuClick(index) {
       this.$router.push({ path: this.url[index] });
     },

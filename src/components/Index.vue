@@ -50,6 +50,11 @@
 
 <script>
 export default {
+  watch:{
+    '$route'(to,form){
+      this.loadAuction();
+    }
+  },
   created() {
     this.loadAuction();
   },
@@ -67,10 +72,11 @@ export default {
           params: {
             pageSize: this.pageSize,
             pageNum: this.pageNum,
+            type: this.$route.query.type,
+            word:this.$route.query.word
           },
         })
         .then((res) => {
-          // console.log(res);
           if (res.data.resultCode == 1) {
             this.goods = res.data.resultData;
             this.total = parseInt(res.data.resultMsg);
@@ -136,7 +142,7 @@ export default {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: flex-start;
 }
 .box-card {
   margin: 1%;

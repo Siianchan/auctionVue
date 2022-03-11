@@ -30,9 +30,10 @@
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item command="所有分类">所有分类</el-dropdown-item>
-              <el-dropdown-item command="黄金糕">黄金糕</el-dropdown-item>
-              <el-dropdown-item command="狮子头">狮子头</el-dropdown-item>
-              <el-dropdown-item command="螺蛳粉">螺蛳粉</el-dropdown-item>
+              <el-dropdown-item command="日常百货">日常百货</el-dropdown-item>
+              <el-dropdown-item command="数码电子">数码电子</el-dropdown-item>
+              <el-dropdown-item command="衣物服饰">衣物服饰</el-dropdown-item>
+              <el-dropdown-item command="学习资料">学习资料</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
           <!-- <el-select v-model="value" clearable placeholder="分类">

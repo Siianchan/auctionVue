@@ -8,27 +8,29 @@
     </div>
     <div id="person_item">
       <div style="width: 22%">
-        <Menu title="我的拍卖"/>
+        <Menu title="我的拍卖" />
       </div>
-           <div id="person_info">
+      <div id="person_info">
         <div style="font-size: 1.3em">我的订单</div>
         <el-table :data="tableData" border style="width: 100%">
-          <el-table-column prop="order_id" label="序号" width="180">
+          <el-table-column prop="order_id" label="序号" min-width="10">
           </el-table-column>
-          <el-table-column prop="order_name" label="物品名称" width="180">
+          <el-table-column prop="order_name" label="物品名称" min-width="30">
           </el-table-column>
-          <el-table-column prop="order_price" label="当前竞价">
+          <el-table-column prop="start_price" label="起拍价格" min-width="15">
           </el-table-column>
-          <el-table-column prop="order_status" label="状态"> </el-table-column>
-          <el-table-column prop="order_ope" label="操作">
+          <el-table-column prop="order_price" label="当前竞价" min-width="15">
+          </el-table-column>
+          <el-table-column prop="order_status" label="状态" min-width="15">
+          </el-table-column>
+          <el-table-column prop="order_ope" label="操作" min-width="20">
             <template slot-scope="scope">
               <el-button
-                @click="handleClick(scope.row)"
+                @click="handleClick(scope.$index)"
                 type="text"
                 size="small"
                 >查看</el-button
               >
-              <el-button type="text" size="small">编辑</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -54,47 +56,55 @@ import Menu from "@/components/Menu";
 export default {
   name: "Person",
   data() {
-     return {
+    return {
       pageNum: 1,
       total: 100,
       pageSize: 10,
-      tableData: [
-        {
-          order_id: "1",
-          order_name: "Test",
-          order_price: "100",
-          order_status: "进行中",
-        },
-
-        {
-          order_id: "1",
-          order_name: "Test",
-          order_price: "1001",
-          order_status: "进行中",
-        },
-        {
-          order_id: "1",
-          order_name: "Test",
-          order_price: "100",
-          order_status: "进行中",
-        },
-        {
-          order_id: "1",
-          order_name: "Test",
-          order_price: "100",
-          order_status: "进行中",
-        },
-        {
-          order_id: "1",
-          order_name: "Test",
-          order_price: "100",
-          order_status: "进行中",
-        },
-      ],
+      tableData: [],
+      status_map: ["进行中", "已结束"],
     };
   },
-  mounted() {},
+  created() {
+    this.loadAuction();
+  },
   methods: {
+    handleClick(id) {
+      this.$router.push({
+        path: "/Goods",
+        query: { goodsId: this.tableData[id].goodsId },
+      });
+    },
+    loadAuction() {
+      this.$axios
+        .get("http://localhost:8000/getMyAuctionList", {
+          params: {
+            pageNum: this.pageNum,
+            pageSize: this.pageSize,
+          },
+        })
+        .then((res) => {
+          if (res.data.resultCode != 1) {
+            return;
+          }
+          this.total = Number(res.data.resultMsg);
+          let data = res.data.resultData;
+          if (data != null) {
+            for (let i in data) {
+              let element = data[i];
+              let t = {
+                goodsId: element.goodsId,
+                order_id: Number(i) + Number(1),
+                order_name: element.goodsName,
+                order_price: element.goodsPrice,
+                start_price: element.startPrice,
+                order_status: this.status_map[element.goodsStatus],
+              };
+
+              this.tableData.push(t);
+            }
+          }
+        });
+    },
     pageChange(num) {
       alert(num);
     },

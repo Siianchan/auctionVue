@@ -96,7 +96,7 @@ export default {
             localStorage.setItem("token", response.data.resultData.spare1);
             alert(response.data.resultMsg);
             this.$root.islogin = true;
-            this.$root.userInfo=response.data.resultData;
+            this.$root.userInfo = response.data.resultData;
             this.$router.push({ path: "/" });
           } else {
             alert("账号或密码错误");

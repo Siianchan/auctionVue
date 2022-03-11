@@ -13,16 +13,25 @@
       <div id="person_info">
         <div style="font-size: 1.3em">我的竞拍</div>
         <el-table :data="tableData" border style="width: 100%">
-          <el-table-column prop="order_id" label="序号" width="180">
+          <el-table-column min-width="10" prop="order_id" label="序号">
           </el-table-column>
-          <el-table-column prop="order_name" label="物品名称" width="180">
+          <el-table-column min-width="35" prop="order_name" label="物品名称">
           </el-table-column>
-          <el-table-column prop="order_now_price" label="当前竞价">
+          <el-table-column
+            min-width="15"
+            prop="order_now_price"
+            label="当前竞价"
+          >
           </el-table-column>
-          <el-table-column prop="order_my_price" label="我的出价">
+          <el-table-column
+            min-width="15"
+            prop="order_my_price"
+            label="我的出价"
+          >
           </el-table-column>
-          <el-table-column prop="order_status" label="状态"> </el-table-column>
-          <el-table-column prop="order_ope" label="操作">
+          <el-table-column min-width="15" prop="order_status" label="状态">
+          </el-table-column>
+          <el-table-column min-width="20" prop="order_ope" label="操作">
             <template slot-scope="scope">
               <el-button
                 @click="handleClick(scope.$index)"
@@ -83,13 +92,16 @@ export default {
           },
         })
         .then((res) => {
+          if (res.data.resultCode != 1) {
+            return;
+          }
+          this.total = Number(res.data.resultMsg);
           let data = res.data.resultData;
           if (data != null) {
-            this.total = data[0].countAuction;
             for (let i in data) {
               let element = data[i];
               let t = {
-                auctionId:element.auctionId,
+                auctionId: element.auctionId,
                 order_id: Number(i) + Number(1),
                 order_name: element.goodsName,
                 order_now_price: element.goodsPrice,

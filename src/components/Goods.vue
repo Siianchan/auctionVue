@@ -14,6 +14,7 @@
           height="300px"
         >
           <el-carousel-item v-for="item in src_arr" :key="item">
+           
             <img :src="item" width="100%" />
           </el-carousel-item>
         </el-carousel>
@@ -88,7 +89,7 @@ export default {
       goodsId: this.$route.query.goodsId,
       goods: {},
       tableData: [],
-      src_arr: [],
+      src_arr: ["http://localhost:8000/img/b13edba4b703408b90fad9df02b3eecd.jpg"],
       pull_price: 1,
       num: 10,
       dis: false,
@@ -126,7 +127,6 @@ export default {
         .then((res) => {
           this.tableData = [];
           var datas = res.data.resultData;
-          this.src_arr = res.data.resultData.goodsPic;
           for (let i in datas) {
             var element = datas[i];
             let t = {

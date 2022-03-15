@@ -130,7 +130,7 @@ export default {
           for (let i in datas) {
             var element = datas[i];
             let t = {
-              status: "失败",
+              status: "出局",
               userName: element.buyerAccount,
               price: element.recordPrice + " 元",
               date: element.gmtCreate,
@@ -138,7 +138,7 @@ export default {
             this.tableData.push(t);
           }
           if (this.tableData.length > 0) {
-            this.tableData[0].status = "成功";
+            this.tableData[0].status = "领先";
           }
         });
     },

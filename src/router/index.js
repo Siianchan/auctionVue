@@ -8,6 +8,7 @@ import Person from '@/components/Person'
 import myOrder from '@/components/myOrder'
 import updatePwd from '@/components/updatePwd'
 import myAuction from '@/components/myAuction'
+import userManage from '@/components/userManage'
 Vue.use(Router)
 
 export default new Router({
@@ -51,6 +52,12 @@ export default new Router({
       path: '/myAuction',
       name: 'myAuction',
       component: myAuction
+    },
+    {
+      path: '/userManage',
+      name: 'userManage',
+      component: userManage
     }
+
   ]
 })

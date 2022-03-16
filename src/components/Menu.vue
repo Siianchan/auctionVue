@@ -1,7 +1,12 @@
 <template>
   <div id="menu_body">
-    <div class="menu_item" v-for="(i, index) in item" @click="menuClick(index)">
-      <span v-if="i != title" style="margin: 5%">{{ i }}</span>
+    <div
+      class="menu_item"
+      v-for="(i, index) in item"
+      @click="menuClick(index)"
+      v-if="i != '用户管理' || $root.userInfo.userType > 0"
+    >
+      <span v-if="i != title" style="margin: 5%">{{ i }} </span>
       <span v-if="i == title" style="margin: 5%; color: #fdb813">{{ i }}</span>
     </div>
     <div class="menu_item" @click="logout">
@@ -14,8 +19,8 @@ export default {
   props: ["title"],
   data() {
     return {
-      item: ["个人信息", "修改密码", "我的竞拍", "我的拍卖"],
-      url: ["/Person", "/updatePwd", "/myOrder", "/myAuction"],
+      item: ["个人信息", "用户管理", "修改密码", "我的竞拍", "我的拍卖"],
+      url: ["/Person", "/userManage", "/updatePwd", "/myOrder", "/myAuction"],
     };
   },
   methods: {
@@ -24,7 +29,7 @@ export default {
         localStorage.removeItem("token");
         this.$root.islogin = false;
         this.$root.userInfo = {};
-        this.$router.push({path:"/"})
+        this.$router.push({ path: "/" });
       }
     },
     menuClick(index) {

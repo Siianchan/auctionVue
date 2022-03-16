@@ -106,7 +106,8 @@ export default {
         });
     },
     pageChange(num) {
-      alert(num);
+      this.pageNum = num;
+      this.loadAuction();
     },
   },
   components: {

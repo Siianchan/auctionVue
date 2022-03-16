@@ -80,8 +80,11 @@ export default {
             userAccount: this.account,
             userPassword: this.password,
           },
-        }).then(function (response) {
+        }).then((response) => {
           alert(response.data.resultMsg);
+          if (response.data.resultCode == 1) {
+            this.$router.push({ path: "/" });
+          }
         });
       } else {
         this.$axios({

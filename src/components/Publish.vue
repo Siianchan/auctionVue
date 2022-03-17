@@ -23,11 +23,15 @@
             type="textarea"
             v-model="ruleForm.desc"
             rows="5"
-            maxlength="200"
+            maxlength="300"
             show-word-limit
           ></el-input>
         </el-form-item>
-        <el-form-item label="起拍价格" prop="price">
+        <el-form-item
+          label="起拍价格"
+          v-if="$route.query.goodsId == null"
+          prop="price"
+        >
           <el-input
             v-model="ruleForm.price"
             maxlength="10"
@@ -71,7 +75,7 @@
             </el-form-item>
           </el-col>
         </el-form-item>
-        <el-form-item label="商品图片">
+        <el-form-item label="商品图片" v-if="$route.query.goodsId == null">
           <el-upload
             action="#"
             :limit="5"
@@ -110,10 +114,23 @@
           </el-dialog>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')"
+          <el-button
+            v-if="$route.query.goodsId != null"
+            type="primary"
+            @click="changeGoods"
+            >立即修改</el-button
+          >
+          <el-button
+            v-if="$route.query.goodsId == null"
+            type="primary"
+            @click="submitForm('ruleForm')"
             >立即创建</el-button
           >
-          <el-button @click="resetForm('ruleForm')">重置</el-button>
+          <el-button
+            v-if="$route.query.goodsId == null"
+            @click="resetForm('ruleForm')"
+            >重置</el-button
+          >
         </el-form-item>
       </el-form>
     </div>
@@ -160,7 +177,53 @@ export default {
       },
     };
   },
+  created() {
+    this.loadGoods();
+  },
   methods: {
+    changeGoods() {
+      var date = new Date(this.ruleForm.date1);
+      var time = new Date(this.ruleForm.date2);
+      date.setHours(time.getHours());
+      date.setMinutes(time.getMinutes());
+      let data = {
+        goodsId: this.$route.query.goodsId,
+        goodsName: this.ruleForm.name,
+        goodsDescribe: this.ruleForm.desc,
+        priceStep: this.ruleForm.step,
+        goodsClassify: this.ruleForm.type,
+        goodsEndTime: date.toLocaleString(),
+      };
+      this.$axios
+        .post("http://localhost:8000/updateGoods", data)
+        .then((res) => {
+          if (res.data.resultCode != 1) {
+            alert("修改失败");
+          } else {
+            alert("修改成功");
+          }
+        });
+    },
+    loadGoods() {
+      if (this.$route.query.goodsId != null) {
+        this.$axios
+          .get("http://localhost:8000/getGoodsDetails", {
+            params: {
+              goodsId: this.$route.query.goodsId,
+            },
+          })
+          .then((res) => {
+            if (res.data.resultCode == 1) {
+              let d = res.data.resultData.goodsEndTime;
+              this.ruleForm.name = res.data.resultData.goodsName;
+              this.ruleForm.desc = res.data.resultData.goodsDescribe;
+              this.ruleForm.step = res.data.resultData.priceStep;
+              this.ruleForm.type = res.data.resultData.goodsClassify;
+              this.ruleForm.date1 = this.ruleForm.date2 = d;
+            }
+          });
+      }
+    },
     fileChange(file, fileList) {
       this.files.push(file.raw);
     },

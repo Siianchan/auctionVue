@@ -31,6 +31,12 @@
                 size="small"
                 >查看</el-button
               >
+              <el-button
+                @click="updateAuction(scope.$index)"
+                type="text"
+                size="small"
+                >修改</el-button
+              >
             </template>
           </el-table-column>
         </el-table>
@@ -68,6 +74,12 @@ export default {
     this.loadAuction();
   },
   methods: {
+    updateAuction(id){
+       this.$router.push({
+        path: "/Publish",
+        query: { goodsId: this.tableData[id].goodsId },
+      });
+    },
     handleClick(id) {
       this.$router.push({
         path: "/Goods",

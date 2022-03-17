@@ -85,6 +85,7 @@
 export default {
   data() {
     return {
+      goodsType:[],
       isEnd: false,
       goodsId: this.$route.query.goodsId,
       goods: {},
@@ -107,6 +108,10 @@ export default {
     },
   },
   created() {
+    this.goodsType['fushi']="衣物服饰";
+    this.goodsType['shuma']="数码电子";
+    this.goodsType['ziliao']="学习资料";
+    this.goodsType['baihuo']="日常百货";
     this.loadGoods();
     this.loadRecord();
   },
@@ -155,6 +160,7 @@ export default {
             return;
           }
           this.goods = res.data.resultData;
+          this.goods.goodsClassify=this.goodsType[res.data.resultData.goodsClassify];
           this.pull_price = this.goods.goodsPrice;
           this.src_arr = JSON.parse(this.goods.goodsPic);
           var now = new Date().getTime();

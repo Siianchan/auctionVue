@@ -50,10 +50,10 @@
 
 <script>
 export default {
-  watch:{
-    '$route'(to,form){
+  watch: {
+    $route(to, form) {
       this.loadAuction();
-    }
+    },
   },
   created() {
     this.loadAuction();
@@ -73,12 +73,15 @@ export default {
             pageSize: this.pageSize,
             pageNum: this.pageNum,
             type: this.$route.query.type,
-            word:this.$route.query.word
+            word: this.$route.query.word,
           },
         })
         .then((res) => {
           if (res.data.resultCode == 1) {
             this.goods = res.data.resultData;
+            this.goods.forEach((a) => {
+              a.goodsEndTime = new Date(a.goodsEndTime).toLocaleDateString();
+            });
             this.total = parseInt(res.data.resultMsg);
           }
         });

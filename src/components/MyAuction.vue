@@ -11,7 +11,7 @@
         <Menu title="我的拍卖" />
       </div>
       <div id="person_info">
-        <div style="font-size: 1.3em">我的订单</div>
+        <div style="font-size: 1.3em">我的拍卖</div>
         <el-table :data="tableData" border style="width: 100%">
           <el-table-column prop="order_id" label="序号" min-width="10">
           </el-table-column>

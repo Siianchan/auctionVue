@@ -10,7 +10,6 @@ yarn-error.log*
 .editorconfig
 .eslintignore
 .eslintrc.js
-.postcssrc.js
 
 .idea
 .vscode

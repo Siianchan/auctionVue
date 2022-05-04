@@ -90,7 +90,7 @@ export default {
       goodsId: this.$route.query.goodsId,
       goods: {},
       tableData: [],
-      src_arr: ["http://localhost:8000/img/b13edba4b703408b90fad9df02b3eecd.jpg"],
+      src_arr: [],
       pull_price: 1,
       num: 10,
       dis: false,
@@ -163,6 +163,9 @@ export default {
           this.goods.goodsClassify=this.goodsType[res.data.resultData.goodsClassify];
           this.pull_price = this.goods.goodsPrice;
           this.src_arr = JSON.parse(this.goods.goodsPic);
+          if(this.src_arr.length<1){
+              this.src_arr=["/null.jpg"];
+          }
           var now = new Date().getTime();
           var end = new Date(this.goods.goodsEndTime).getTime();
           this.time = end - now;

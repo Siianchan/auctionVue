@@ -14,7 +14,7 @@
       </div>
 
       <div id="sp_list">
-        <div class="box-card" v-for="g in goods" @click="clickGoods(g.goodsId)">
+        <div class="box-card" v-for="g in goods" :key="g.id"  @click="clickGoods(g.goodsId)"> 
           <div style="width: 100%; height: 65%; overflow: hidden">
             <img :src="g.goodsPic" style="height: 100%" />
           </div>

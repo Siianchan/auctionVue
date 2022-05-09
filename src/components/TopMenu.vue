@@ -39,19 +39,24 @@
         </div>
         <div style="width: 45%; margin: ">
           <el-input
+            @keyup.native.enter="searchButton"
             placeholder="搜索商品..."
             v-model="search"
             class="input-with-select"
             style="width: 100%"
             maxlength="20"
           >
-            <el-button @click="searchButton" slot="append" icon="el-icon-search"></el-button>
+            <el-button
+              @click="searchButton"
+              slot="append"
+              icon="el-icon-search"
+            ></el-button>
           </el-input>
         </div>
         <div style="width: 13%">
-          <div>
+          <!-- <div>
             <i class="el-icon-star-off" style="font-size: 1.5em"></i>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -71,8 +76,8 @@ export default {
     this.loadUser();
   },
   methods: {
-    searchButton(){
-     this.$router.push({ path: "/", query: { word: this.search } });
+    searchButton() {
+      this.$router.push({ path: "/", query: { word: this.search } });
     },
     loadUser() {
       if (localStorage.getItem("token") != null) {

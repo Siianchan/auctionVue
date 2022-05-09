@@ -13,9 +13,12 @@
           trigger="click"
           height="300px"
         >
-          <el-carousel-item v-for="item in src_arr" :key="item">
-           
-            <img :src="item" width="100%" />
+          <el-carousel-item
+            v-for="item in src_arr"
+            :key="item"
+            style="text-align: center"
+          >
+            <img :src="item" style="max-width: 100%; max-height: 100%" />
           </el-carousel-item>
         </el-carousel>
       </div>
@@ -85,7 +88,7 @@
 export default {
   data() {
     return {
-      goodsType:[],
+      goodsType: [],
       isEnd: false,
       goodsId: this.$route.query.goodsId,
       goods: {},
@@ -108,10 +111,10 @@ export default {
     },
   },
   created() {
-    this.goodsType['fushi']="衣物服饰";
-    this.goodsType['shuma']="数码电子";
-    this.goodsType['ziliao']="学习资料";
-    this.goodsType['baihuo']="日常百货";
+    this.goodsType["fushi"] = "衣物服饰";
+    this.goodsType["shuma"] = "数码电子";
+    this.goodsType["ziliao"] = "学习资料";
+    this.goodsType["baihuo"] = "日常百货";
     this.loadGoods();
     this.loadRecord();
   },
@@ -160,30 +163,28 @@ export default {
             return;
           }
           this.goods = res.data.resultData;
-          this.goods.goodsClassify=this.goodsType[res.data.resultData.goodsClassify];
+          this.goods.goodsClassify =
+            this.goodsType[res.data.resultData.goodsClassify];
           this.pull_price = this.goods.goodsPrice;
           this.src_arr = JSON.parse(this.goods.goodsPic);
-          if(this.src_arr.length<1){
-              this.src_arr=["/null.jpg"];
+          if (this.src_arr.length < 1) {
+            this.src_arr = ["/null.jpg"];
           }
-          var now = new Date().getTime();
-          var end = new Date(this.goods.goodsEndTime).getTime();
-          this.time = end - now;
-          if (this.time > 0) {
-            this.day = parseInt(this.time / (1000 * 60 * 60 * 24));
-            setInterval(this.setSeconde, 1000);
-          } else {
-            this.isEnd = true;
-          }
+          this.setSeconde();
+          setInterval(this.setSeconde, 1000);
         });
     },
     jinpai() {
       if (!this.$root.islogin) {
         alert("请先登录");
-        this.$router.push({ path: "/" });
+        this.$router.push({ path: "/login" });
+        return;
       }
-      if (this.pull_price < this.goods.goodsPrice + this.goods.priceStep) {
-        alert("出价金额必须高于当前金额及加价幅度");
+      if (
+        this.pull_price <
+        parseInt(this.goods.goodsPrice) + parseInt(this.goods.priceStep)
+      ) {
+        alert("出价金额必须高于当前价格+加价幅度");
         return;
       }
 
@@ -209,11 +210,12 @@ export default {
     setSeconde() {
       var now = new Date().getTime();
       var end = new Date(this.goods.goodsEndTime).getTime();
-      this.time = end - now;
+      this.time = (end - now) / 1000;
       if (this.time > 0) {
-        this.hour = parseInt(this.time / (1000 * 60 * 60)) % 24;
-        this.minute = parseInt(this.time / (1000 * 60)) % 60;
-        this.second = parseInt(this.time / 1000) % 60;
+        this.day = parseInt(this.time / (60 * 60 * 24));
+        this.hour = parseInt(this.time / (60 * 60)) % 24;
+        this.minute = parseInt(this.time / 60) % 60;
+        this.second = parseInt(this.time % 60);
       } else {
         this.isEnd = true;
       }
@@ -250,13 +252,7 @@ export default {
   font-size: 1.5em;
   color: red;
 }
-.el-carousel__item:nth-child(2n) {
-  background-color: #99a9bf;
-}
 
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
-}
 #goods_text {
   word-wrap: break-word;
   display: flex;

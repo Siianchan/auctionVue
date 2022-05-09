@@ -1,10 +1,12 @@
 <template>
   <div class="index">
-    <el-carousel trigger="click" height="600px">
-      <el-carousel-item v-for="item in src_arr" :key="item">
-        <img :src="item" width="100%" />
-      </el-carousel-item>
-    </el-carousel>
+    <div style="width: 80%; margin: 2% auto">
+      <el-carousel type="card" trigger="click" height="450px">
+        <el-carousel-item v-for="item in src_arr" :key="item">
+          <img :src="item" width="100%" height="100%" />
+        </el-carousel-item>
+      </el-carousel>
+    </div>
     <div id="index_body">
       <div style="width: 100%; height: 50px; margin-top: 20px">
         <el-breadcrumb separator-class="el-icon-arrow-right">
@@ -14,9 +16,21 @@
       </div>
 
       <div id="sp_list">
-        <div class="box-card" v-for="g in goods" :key="g.id"  @click="clickGoods(g.goodsId)"> 
-          <div style="width: 100%; height: 65%; overflow: hidden">
-            <img :src="g.goodsPic" style="height: 100%" />
+        <div
+          class="box-card"
+          v-for="g in goods"
+          :key="g.id"
+          @click="clickGoods(g.goodsId)"
+        >
+          <div
+            style="
+              width: 100%;
+              height: 65%;
+              overflow: hidden;
+              text-align: center;
+            "
+          >
+            <img :src="g.goodsPic" style="max-width: 100%; max-height: 100%" />
           </div>
           <div id="box_text">
             <div style="width: 100%; color: #303133; margin-top: 2%">
@@ -94,7 +108,7 @@ export default {
       pageSize: 12,
       pageNum: 1,
       total: 1,
-      src_arr: ["/static/img/1.jpg", "/static/img/2.jpg", "/static/img/3.jpg"],
+      src_arr: ["/static/img/4.jpg", "/static/img/6.jpg", "/static/img/5.jpg"],
       msg: "Welcome to Your Vue.js App",
     };
   },
@@ -160,6 +174,12 @@ export default {
   box-sizing: border-box;
   animation: clippath 0.6s linear;
   animation-fill-mode: forwards;
+}
+.box-card img {
+  transition: all 0.6s;
+}
+.box-card:hover img {
+  transform: scale(1.3);
 }
 @keyframes clippath {
   0% {

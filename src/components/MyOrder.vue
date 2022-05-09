@@ -39,7 +39,6 @@
                 size="small"
                 >查看</el-button
               >
-              
             </template>
           </el-table-column>
         </el-table>
@@ -99,6 +98,7 @@ export default {
           this.total = Number(res.data.resultMsg);
           let data = res.data.resultData;
           if (data != null) {
+            this.tableData = [];
             for (let i in data) {
               let element = data[i];
               let t = {

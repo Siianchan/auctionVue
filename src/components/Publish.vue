@@ -159,8 +159,8 @@ export default {
           { required: true, message: "请输入商品名称", trigger: "blur" },
           {
             min: 2,
-            max: 10,
-            message: "长度在 2 到 10 个字符",
+            max: 20,
+            message: "长度在 2 到 20 个字符",
             trigger: "blur",
           },
         ],
@@ -240,6 +240,11 @@ export default {
       this.dialogVisible = true;
     },
     submitForm(formName) {
+      if (!this.$root.islogin) {
+        alert("请先登录");
+        this.$router.push({ path: "/login" });
+        return;
+      }
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var data = new FormData();
@@ -264,9 +269,10 @@ export default {
           this.$axios
             .post("http://localhost:8000/addGoods", data, config)
             .then((response) => {
-              this.fullscreenLoading = false;
-              this.$refs[formName].resetFields();
-              alert("添加成功");
+              if (response.data.resultCode == 1) {
+                alert("添加成功");
+              }
+              location.reload();
             });
         } else {
           alert("请正确填写！");

@@ -92,8 +92,7 @@ export default {
             alert(res.data.resultMsg);
             return;
           }
-          this.tableData[id].userStatus =
-            this.tableData[id].userStatus == "正常" ? "禁用" : "正常";
+          this.tableData[id].userStatus == "正常" ? "禁用" : "正常";
         });
     },
     chonzhi(id) {
@@ -131,6 +130,7 @@ export default {
           this.total = Number(res.data.resultMsg);
           let data = res.data.resultData;
           if (data != null) {
+            this.tableData = [];
             for (let i in data) {
               let element = data[i];
               let t = {
@@ -150,7 +150,7 @@ export default {
       this.loadUser();
     },
   },
-  
+
   components: {
     Menu,
   },

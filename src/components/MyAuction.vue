@@ -23,7 +23,7 @@
           </el-table-column>
           <el-table-column prop="order_status" label="状态" min-width="15">
           </el-table-column>
-          <el-table-column prop="buyer_account" label="购买人" min-width="30">
+          <el-table-column prop="buyer_account" label="购买人" min-width="25">
             <template slot-scope="scope">
               <el-button
                 @click="clickUser(scope.row.buyer_account)"
@@ -33,7 +33,7 @@
               >
             </template>
           </el-table-column>
-          <el-table-column prop="order_ope" label="操作" min-width="20">
+          <el-table-column prop="order_ope" label="操作" min-width="25">
             <template slot-scope="scope">
               <el-button
                 @click="handleClick(scope.$index)"
@@ -46,6 +46,12 @@
                 type="text"
                 size="small"
                 >修改</el-button
+              >
+              <el-button
+                @click="deleteAuction(scope.$index)"
+                type="text"
+                size="small"
+                >删除</el-button
               >
             </template>
           </el-table-column>
@@ -90,6 +96,26 @@ export default {
         query: { goodsId: this.tableData[id].goodsId },
       });
     },
+    deleteAuction(id) {
+      let data = {
+        goodsId: this.tableData[id].goodsId,
+        goodsStatus: -1,
+      };
+      let check = confirm("确定要删除吗？");
+      if (!check) {
+        return;
+      }
+      this.$axios
+        .post("http://localhost:8000/updateGoods", data)
+        .then((res) => {
+          if (res.data.resultCode != 1) {
+            alert("删除失败");
+          } else {
+            this.tableData.splice(id, 1);
+            alert("删除成功");
+          }
+        });
+    },
     handleClick(id) {
       this.$router.push({
         path: "/Goods",
@@ -111,6 +137,7 @@ export default {
           this.total = Number(res.data.resultMsg);
           let data = res.data.resultData;
           if (data != null) {
+            this.tableData = [];
             for (let i in data) {
               let element = data[i];
               let t = {
